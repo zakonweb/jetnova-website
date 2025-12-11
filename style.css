@@ -78,7 +78,7 @@ Author: JetNova Team
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 100px;
+  scroll-padding-top: 25px;
   font-size: 16px;
 }
 
@@ -1199,7 +1199,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .demo-chat {
-  min-height: 250px;
+  min-height: 400px;
   padding: 1rem 1.5rem;
 }
 
@@ -2777,7 +2777,7 @@ button:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  max-height: 300px;
+  max-height: 450px;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--glass-border) transparent;

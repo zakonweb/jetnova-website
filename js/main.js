@@ -340,7 +340,7 @@
     async function sendToChatbase(userMessage) {
         try {
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 20000); // 20s safety timeout
+            const timeoutId = setTimeout(() => controller.abort(), 90000); // 90s (1.5 min) safety timeout
 
             const response = await fetch(CHATBASE_API_URL, {
                 method: 'POST',
