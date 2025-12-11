@@ -78,8 +78,13 @@ Author: JetNova Team
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 25px;
+  scroll-padding-top: 80px;
   font-size: 16px;
+}
+
+/* Reduce visual gap when scrolling to sections */
+section[id] {
+  scroll-margin-top: -3rem;
 }
 
 body {
