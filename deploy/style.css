@@ -580,9 +580,15 @@ h1, h2, h3, h4, h5, h6 {
   height: 40px;
   background: transparent;
   border-radius: 50%;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.mockup-avatar img {
+  border-radius: 50%;
+  display: block;
 }
 
 .mockup-avatar svg {
@@ -734,7 +740,10 @@ h1, h2, h3, h4, h5, h6 {
    ============================================================================ */
 
 .indicators-section {
-  padding: var(--section-padding) 0;
+  /* Tighter vertical spacing vs global --section-padding to reduce empty area */
+  padding: clamp(1.5rem, 4vw, 3rem) 0;
+  min-height: 0;
+  height: auto;
 }
 
 .indicators-grid {
@@ -752,6 +761,15 @@ h1, h2, h3, h4, h5, h6 {
   transition: all 0.4s var(--ease-smooth);
   position: relative;
   overflow: hidden;
+}
+
+.indicator-card[data-href] {
+  cursor: pointer;
+}
+
+.indicator-card[data-href]:focus-visible {
+  outline: 3px solid var(--primary-light);
+  outline-offset: 4px;
 }
 
 .indicator-card::before {
@@ -830,14 +848,15 @@ h1, h2, h3, h4, h5, h6 {
    ============================================================================ */
 
 .video-section {
-  padding: var(--section-padding) 0;
+  /* Tighter vertical spacing vs global --section-padding to reduce empty area */
+  padding: clamp(1.75rem, 3.5vw, 3.25rem) 0;
   background: linear-gradient(180deg, transparent 0%, rgba(102, 126, 234, 0.03) 50%, transparent 100%);
 }
 
 .video-section .section-header {
   text-align: center;
   max-width: 700px;
-  margin: 0 auto 4rem;
+  margin: 0 auto clamp(1.25rem, 3vw, 2.25rem);
 }
 
 .section-label {
@@ -963,7 +982,7 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   justify-content: center;
   gap: 4rem;
-  margin-top: 3rem;
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
   flex-wrap: wrap;
 }
 
@@ -990,7 +1009,8 @@ h1, h2, h3, h4, h5, h6 {
    ============================================================================ */
 
 .features-section {
-  padding: var(--section-padding) 0;
+  /* Reduce top/bottom whitespace vs global section padding */
+  padding: clamp(1.75rem, 4vw, 4.5rem) 0;
 }
 
 .feature-row {
@@ -1102,7 +1122,7 @@ h1, h2, h3, h4, h5, h6 {
    ============================================================================ */
 
 .demo-section {
-  padding: var(--section-padding) 0;
+  padding: calc(var(--section-padding) / 2) 0;
   background: linear-gradient(180deg, rgba(102, 126, 234, 0.03) 0%, transparent 100%);
 }
 
@@ -1134,6 +1154,10 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.demo-header h4 img {
+  border-radius: 6px;
 }
 
 .demo-header h4 svg {
@@ -1199,8 +1223,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .demo-chat {
-  min-height: 250px;
-  padding: 1rem 1.5rem;
+  min-height: 460px;
+  padding: 1.25rem 1.75rem;
 }
 
 .demo-input {
@@ -1260,7 +1284,7 @@ h1, h2, h3, h4, h5, h6 {
    ============================================================================ */
 
 .how-it-works {
-  padding: var(--section-padding) 0;
+  padding: calc(var(--section-padding) / 2) 0;
 }
 
 .steps-container {
@@ -1323,7 +1347,8 @@ h1, h2, h3, h4, h5, h6 {
    ============================================================================ */
 
 .pricing-section {
-  padding: var(--section-padding) 0;
+  /* Reduce top/bottom whitespace by ~50% vs global section padding */
+  padding: calc(var(--section-padding) / 2) 0;
   background: linear-gradient(180deg, transparent 0%, rgba(102, 126, 234, 0.03) 50%, transparent 100%);
 }
 
@@ -1493,7 +1518,7 @@ h1, h2, h3, h4, h5, h6 {
    ============================================================================ */
 
 .testimonials-section {
-  padding: var(--section-padding) 0;
+  padding: calc(var(--section-padding) / 2) 0;
 }
 
 .testimonials-grid {
@@ -1585,7 +1610,7 @@ h1, h2, h3, h4, h5, h6 {
    ============================================================================ */
 
 .usp-section {
-  padding: var(--section-padding) 0;
+  padding: calc(var(--section-padding) / 2) 0;
   background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
   border-top: 1px solid var(--glass-border);
   border-bottom: 1px solid var(--glass-border);
@@ -1631,12 +1656,12 @@ h1, h2, h3, h4, h5, h6 {
    ============================================================================ */
 
 .faq-section {
-  padding: var(--section-padding) 0;
+  padding: calc(var(--section-padding) / 2) 0;
 }
 
 .faq-grid {
   max-width: 800px;
-  margin: 4rem auto 0;
+  margin: 2rem auto 0;
 }
 
 .faq-item {
@@ -1701,7 +1726,7 @@ h1, h2, h3, h4, h5, h6 {
    ============================================================================ */
 
 .final-cta {
-  padding: var(--section-padding) 0;
+  padding: calc(var(--section-padding) * 0.5) 0;
   text-align: center;
 }
 
@@ -2776,8 +2801,8 @@ button:focus-visible {
 .demo-chat {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  max-height: 300px;
+  gap: 1rem;
+  max-height: 517.5px;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--glass-border) transparent;
