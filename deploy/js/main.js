@@ -52,7 +52,13 @@
     
     function initAnimations() {
         const animatedElements = document.querySelectorAll('.animate-on-scroll');
-        
+
+        // Fallback for older browsers without IntersectionObserver.
+        if (typeof IntersectionObserver === 'undefined') {
+            animatedElements.forEach(el => el.classList.add('animated'));
+            return;
+        }
+
         const observerOptions = {
             root: null,
             rootMargin: '0px',
@@ -67,7 +73,7 @@
                 }
             });
         }, observerOptions);
-        
+
         animatedElements.forEach(el => {
             observer.observe(el);
         });
@@ -106,22 +112,28 @@
     // Initialize counters when they come into view
     function initCounters() {
         const counters = document.querySelectorAll('[data-count]');
-        
+
+        // Fallback for older browsers without IntersectionObserver.
+        if (typeof IntersectionObserver === 'undefined') {
+            counters.forEach(counter => animateCounter(counter));
+            return;
+        }
+
         const observerOptions = {
             root: null,
             rootMargin: '0px',
             threshold: 0.5
         };
-        
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
                     animateCounter(entry.target);
-            observer.unobserve(entry.target);
-          }
-        });
+                    observer.unobserve(entry.target);
+                }
+            });
         }, observerOptions);
-        
+
         counters.forEach(counter => {
             observer.observe(counter);
         });
@@ -139,6 +151,16 @@
             const targetId = this.getAttribute('href');
             
             if (targetId === '#') return;
+
+            // Logo click should always return to the very top (not offset to a section)
+            if (this.classList.contains('logo')) {
+                const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                window.scrollTo({
+                    top: 0,
+                    behavior: prefersReducedMotion ? 'auto' : 'smooth'
+                });
+                return;
+            }
             
             const targetElement = document.querySelector(targetId);
             
@@ -285,7 +307,9 @@
                     .replace(/^## (.+)$/gm, '<h3>$1</h3>')
                     .replace(/^# (.+)$/gm, '<h2>$1</h2>')
                     .replace(/^- (.+)$/gm, '<li>$1</li>')
-                    .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
+                    // Avoid RegExp dotAll (/s) for broader browser compatibility (older Safari/iOS).
+                    // Equivalent to "dot matches newlines" using [\s\S].
+                    .replace(/(<li>[\s\S]*?<\/li>)/, '<ul>$1</ul>')
                     .replace(/\n/g, '<br>');
                 message.innerHTML = html;
             }
@@ -782,6 +806,39 @@
     }
     
     document.addEventListener('DOMContentLoaded', initMagneticButtons);
+
+    // ============================================================================
+    // CLICKABLE CARDS (data-href)
+    // ============================================================================
+
+    function initClickableCards() {
+        const clickable = document.querySelectorAll('[data-href]');
+
+        function activate(el) {
+            const href = el.getAttribute('data-href');
+            if (!href) return;
+
+            const newTab = el.getAttribute('data-href-new-tab') === 'true';
+            if (newTab) {
+                window.open(href, '_blank', 'noopener');
+            } else {
+                window.location.href = href;
+            }
+        }
+
+        clickable.forEach(el => {
+            el.addEventListener('click', () => activate(el));
+
+            el.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    activate(el);
+                }
+            });
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', initClickableCards);
 
     // ============================================================================
     // SCROLL PROGRESS INDICATOR
